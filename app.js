@@ -57,6 +57,25 @@ app.post("/createUser", (req, res) => {
   res.render("userInfo", { userName, userAge, userEmail });
 });
 
+//Fruits Constructor
+const fruits = ["Apple", "Orange", "Banana"];
+
+app.get("/", (req, res) => {
+  res.render("fruits", { fruits });
+});
+
+app.post("/addFruit", (req, res) => {
+  const { fruit } = req.body;
+  fruits.push(fruit);
+  res.redirect("/");
+});
+
+app.get("/simulateAsync", (req, res) => {
+  setTimeout(() => {
+    res.json({ message: "Asynchronous operation completed!" });
+  }, 2000);
+});
+
 // Start the server on port 4000
 // Note we are advertising the service on port 4000 and not 3000 this time
 var port = 4000;
