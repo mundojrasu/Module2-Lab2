@@ -2,6 +2,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
+const axios = require("axios");
 
 // Create an instance of express
 const app = express();
@@ -29,7 +30,7 @@ app.get("/books", (res, req) => {
 app.post("/addBook", (req, res) => {
   const { title, author, publicationYear } = req.body;
   books.push({ title, author, publicationYear });
-  res.redirect("/");
+  res.redirect("/books");
 });
 
 //create a route for users to enter the numbers
@@ -58,9 +59,9 @@ app.post("/createUser", (req, res) => {
 });
 
 //Fruits Constructor
-const fruits = ["Apple", "Orange", "Banana"];
+const fruits = ["Apple", "Banana", "Orange"];
 
-app.get("/", (req, res) => {
+app.get("/fruits", (req, res) => {
   res.render("fruits", { fruits });
 });
 
@@ -74,6 +75,16 @@ app.get("/simulateAsync", (req, res) => {
   setTimeout(() => {
     res.json({ message: "Asynchronous operation completed!" });
   }, 2000);
+});
+
+app.post("/makeRequest", async (req, res) => {
+  const { url } = req.body;
+  try {
+    const response = await axios.get(url);
+    res.json(response.data);
+  } catch (error) {
+    res.json({ error: error.message });
+  }
 });
 
 // Start the server on port 4000
